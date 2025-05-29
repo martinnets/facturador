@@ -14,38 +14,33 @@
             
             <form id="filtrosForm" method="get" class="grid grid-cols-5  ">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Ordenes</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Orden</label>
                     <input type="hidden" name="pagina" value="1">
-                    <input type="text" name="busqueda" value="<?= htmlspecialchars($data['busqueda']) ?>" 
+                    <input type="text" name="id"  value="<?= htmlspecialchars($data['id']) ?>"  
                            placeholder="Buscar Ordenes..." class="flex-grow px-4 py-2 border rounded-l-md">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tipo Pago</label>
-                    <input type="hidden" name="pagina" value="1">
-                    <select name="estado" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                     <select name="estado" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Tipo Pago</option>
-                        <option value="pendiente" <?= (($_GET['estado'] ?? '') === 'pendiente') ? 'selected' : '' ?>>Pendiente</option>
-                        <option value="proceso" <?= (($_GET['estado'] ?? '') === 'proceso') ? 'selected' : '' ?>>En Proceso</option>
-                        <option value="completado" <?= (($_GET['estado'] ?? '') === 'completado') ? 'selected' : '' ?>>Completado</option>
-                        <option value="cancelado" <?= (($_GET['estado'] ?? '') === 'cancelado') ? 'selected' : '' ?>>Cancelado</option>
+                        <option value="Contado" <?= (($_GET['pago'] ?? '') === 'Contado') ? 'selected' : '' ?>>Contado</option>
+                        <option value="Credito" <?= (($_GET['pago'] ?? '') === 'Credito') ? 'selected' : '' ?>>Credito</option>                                                
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
-                    <input type="hidden" name="pagina" value="1">
-                    <select name="estado" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                     <select name="estado" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Tipo Pago</option>
-                        <option value="pendiente" <?= (($_GET['estado'] ?? '') === 'pendiente') ? 'selected' : '' ?>>Pendiente</option>
-                        <option value="proceso" <?= (($_GET['estado'] ?? '') === 'proceso') ? 'selected' : '' ?>>En Proceso</option>
-                        <option value="completado" <?= (($_GET['estado'] ?? '') === 'completado') ? 'selected' : '' ?>>Completado</option>
-                        <option value="cancelado" <?= (($_GET['estado'] ?? '') === 'cancelado') ? 'selected' : '' ?>>Cancelado</option>
+                        <option value="Pendiente" <?= (($_GET['estado'] ?? '') === 'Pendiente') ? 'selected' : '' ?>>Pendiente</option>
+                        <option value="Facturado" <?= (($_GET['estado'] ?? '') === 'Facturado') ? 'selected' : '' ?>>Facturado</option>
+                        <option value="Despachado" <?= (($_GET['estado'] ?? '') === 'Despachado') ? 'selected' : '' ?>>Despachado</option>
+                        
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Ordenes</label>
-                    <input type="hidden" name="pagina" value="1">
-                    <input type="text" name="busqueda" value="<?= htmlspecialchars($data['busqueda']) ?>" 
-                           placeholder="Buscar Ordenes..." class="flex-grow px-4 py-2 border rounded-l-md">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cliente:</label>
+                     <input type="text" name="cliente"  
+                           placeholder="Buscar Cliente..." class="flex-grow px-4 py-2 border rounded-l-md">
                 </div>
                 <div class="flex items-end gap-2">
                     <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200">
@@ -86,7 +81,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                             <?php if ($orden['factura'] == ''): ?>
                                       
-                                <a class="bg-red-400 hover:bg-red-500 font-bold py-1 px-2 
+                                <a href="<?php echo '/facturador/public/orden/create?id='.$orden['id']?>" class="bg-red-400 hover:bg-red-500 font-bold py-1 px-2 
                                                 rounded"><i class="fas fa-file-pdf text-white"></i></a>
                             <?php endif; ?>    
                                                                                         
@@ -94,7 +89,11 @@
                             <td class="py-2 px-4 border"><?= htmlspecialchars($orden['factura']) ?></td>
 
                             <td class="py-2 px-4 border"><?= htmlspecialchars($orden['id']) ?></td>
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($orden['id_pedido_ejecutivo']) ?></td>
+                            <td class="py-2 px-4 border">
+                            <a href="<?php echo '/facturador/public/orden/create?id='.$orden['id_pedido_ejecutivo']?>"
+                             class="bg-blue-400 hover:bg-blue-100 font-bold py-1 px-2 
+                            rounded"> 
+                            <?= htmlspecialchars($orden['id_pedido_ejecutivo']) ?></a></td>
                             <td class="py-2 px-4 border">
                             <?php if ($orden['nombre_tipo_pago'] == 'Contado'): ?>
                                     <span class='bg-blue-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full  '>
@@ -151,21 +150,21 @@
                 </div>
                 <div class="flex space-x-2">
                     <?php if ($data['paginaActual'] > 1): ?>
-                        <a href="?pagina=<?= $data['paginaActual'] - 1 ?>&por_pagina=<?= $data['porPagina'] ?>&busqueda=<?= urlencode($data['busqueda']) ?>" 
+                        <a href="?pagina=<?= $data['paginaActual'] - 1 ?>&por_pagina=<?= $data['porPagina'] ?>&id=<?= urlencode($data['id']) ?>" 
                            class="px-4 py-2 border rounded-md hover:bg-gray-100">
                             Anterior
                         </a>
                     <?php endif; ?>
                     
                     <?php for ($i = 1; $i <= $data['totalPaginas']; $i++): ?>
-                        <a href="?pagina=<?= $i ?>&por_pagina=<?= $data['porPagina'] ?>&busqueda=<?= urlencode($data['busqueda']) ?>" 
+                        <a href="?pagina=<?= $i ?>&por_pagina=<?= $data['porPagina'] ?>&id=<?= urlencode($data['id']) ?>" 
                            class="px-4 py-2 border rounded-md <?= $i == $data['paginaActual'] ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' ?>">
                             <?= $i ?>
                         </a>
                     <?php endfor; ?>
                     
                     <?php if ($data['paginaActual'] < $data['totalPaginas']): ?>
-                        <a href="?pagina=<?= $data['paginaActual'] + 1 ?>&por_pagina=<?= $data['porPagina'] ?>&busqueda=<?= urlencode($data['busqueda']) ?>" 
+                        <a href="?pagina=<?= $data['paginaActual'] + 1 ?>&por_pagina=<?= $data['porPagina'] ?>&id=<?= urlencode($data['id']) ?>" 
                            class="px-4 py-2 border rounded-md hover:bg-gray-100">
                             Siguiente
                         </a>

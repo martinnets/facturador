@@ -13,10 +13,13 @@ class OrdenController extends Controller {
     public function index() {
         $pagina = $_GET['pagina'] ?? 1;
         $porPagina = $_GET['por_pagina'] ?? 100;
-        $busqueda = $_GET['busqueda'] ?? '';
-        
-        $ordenes = $this->model->getOrdenes($pagina, $porPagina, $busqueda);
-        $totalordenes = $this->model->getTotalOrdenes($busqueda);
+        $id = $_GET['id'] ?? '';
+        $pago = $_GET['pago'] ?? '';
+        $estado = $_GET['estado'] ?? '';
+        $cliente = $_GET['cliente'] ?? '';
+
+        $ordenes = $this->model->getOrdenes($pagina, $porPagina, $id,$pago,$estado,$cliente);
+        $totalordenes = $this->model->getTotalOrdenes($id,$pago,$estado,$cliente);
         $totalPaginas = ceil($totalordenes / $porPagina);
         
         $data = [
@@ -24,10 +27,20 @@ class OrdenController extends Controller {
             'paginaActual' => $pagina,
             'totalPaginas' => $totalPaginas,
             'porPagina' => $porPagina,
-            'busqueda' => $busqueda,
+            'id' => $id,
+            'pago' => $pago,
+            'estado' => $estado,
+            'cliente' => $cliente ,
             'totalordenes' => $totalordenes
         ];
         require_once __DIR__ . '/../views/ordenes/index.php';
+    }
+    public function create() {
+        $id_pedido = $_GET['id'] ?? null;
+        $pedido = $this->model->getOrdenByID($id_pedido);
+        $detalles = $this->model->getOrdenDetalleByID($id_pedido);
+
+        require_once __DIR__ . '/../views/ordenes/create.php';
     }
     public function exportExcel() {
         $Ordenes = $this->model->exportToExcel();

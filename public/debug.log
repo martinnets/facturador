@@ -1,0 +1,33 @@
+[29-May-2025 04:17:33 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Models\PDO" not found in C:\xampp\htdocs\facturador\app\Models\Cliente.php:115
+Stack trace:
+#0 C:\xampp\htdocs\facturador\app\Controllers\ClienteController.php(28): Models\Cliente->getAllClientes(0, 10, '', 'id_cliente', 'ASC')
+#1 [internal function]: Controllers\ClienteController->index()
+#2 C:\xampp\htdocs\facturador\app\Core\App.php(36): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#4 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Models\Cliente.php on line 115
+[29-May-2025 04:17:39 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Models\PDO" not found in C:\xampp\htdocs\facturador\app\Models\Cliente.php:118
+Stack trace:
+#0 C:\xampp\htdocs\facturador\app\Controllers\ClienteController.php(28): Models\Cliente->getAllClientes(0, 10, '', 'id_cliente', 'ASC')
+#1 [internal function]: Controllers\ClienteController->index()
+#2 C:\xampp\htdocs\facturador\app\Core\App.php(36): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#4 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Models\Cliente.php on line 118
+[29-May-2025 04:17:57 Europe/Berlin] PHP Warning:  Undefined property: Models\Cliente::$db in C:\xampp\htdocs\facturador\app\Models\Cliente.php on line 130
+[29-May-2025 04:17:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in C:\xampp\htdocs\facturador\app\Models\Cliente.php:130
+Stack trace:
+#0 C:\xampp\htdocs\facturador\app\Controllers\ClienteController.php(29): Models\Cliente->getTotalClientes()
+#1 [internal function]: Controllers\ClienteController->index()
+#2 C:\xampp\htdocs\facturador\app\Core\App.php(36): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#4 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Models\Cliente.php on line 130
+[29-May-2025 04:41:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Models\PDO" not found in C:\xampp\htdocs\facturador\app\Models\Cliente.php:110
+Stack trace:
+#0 C:\xampp\htdocs\facturador\app\Controllers\ClienteController.php(18): Models\Cliente->getClientes(1, 10, '')
+#1 [internal function]: Controllers\ClienteController->index()
+#2 C:\xampp\htdocs\facturador\app\Core\App.php(36): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#4 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Models\Cliente.php on line 110

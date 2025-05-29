@@ -3,37 +3,37 @@
 namespace Controllers;
 
 use Core\Controller;
-use Models\Cliente;
-class ClienteController extends Controller { 
+use Models\Orden;
+class OrdenController extends Controller { 
     private $model;
 
     public function __construct() {
-        $this->model = new Cliente();
+        $this->model = new Orden();
     }
     public function index() {
         $pagina = $_GET['pagina'] ?? 1;
-        $porPagina = $_GET['por_pagina'] ?? 10;
+        $porPagina = $_GET['por_pagina'] ?? 100;
         $busqueda = $_GET['busqueda'] ?? '';
         
-        $clientes = $this->model->getClientes($pagina, $porPagina, $busqueda);
-        $totalClientes = $this->model->getTotalClientes($busqueda);
-        $totalPaginas = ceil($totalClientes / $porPagina);
+        $ordenes = $this->model->getOrdenes($pagina, $porPagina, $busqueda);
+        $totalordenes = $this->model->getTotalOrdenes($busqueda);
+        $totalPaginas = ceil($totalordenes / $porPagina);
         
         $data = [
-            'clientes' => $clientes,
+            'ordenes' => $ordenes,
             'paginaActual' => $pagina,
             'totalPaginas' => $totalPaginas,
             'porPagina' => $porPagina,
             'busqueda' => $busqueda,
-            'totalClientes' => $totalClientes
+            'totalordenes' => $totalordenes
         ];
-        require_once __DIR__ . '/../views/clientes/index.php';
+        require_once __DIR__ . '/../views/ordenes/index.php';
     }
     public function exportExcel() {
-        $clientes = $this->model->exportToExcel();
+        $Ordenes = $this->model->exportToExcel();
         
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="clientes.xls"');
+        header('Content-Disposition: attachment;filename="Ordenes.xls"');
         header('Cache-Control: max-age=0');
         
         $output = fopen('php://output', 'w');
@@ -42,7 +42,7 @@ class ClienteController extends Controller {
         fputcsv($output, array('ID', 'Código', 'Nombre', 'Teléfono', 'Correo'), "\t");
         
         // Datos
-        foreach ($clientes as $cliente) {
+        foreach ($Ordenes as $cliente) {
             fputcsv($output, $cliente, "\t");
         }
         

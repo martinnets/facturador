@@ -1,7 +1,11 @@
+<?php include  '../app/Views/layouts/header.php'; ?>
+<?php include  '../app/Views/layouts/aside.php'; ?>
+       
+        <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out content-expanded">
+        <?php include  '../app/Views/layouts/navbar.php'; ?>
+        <main class="flex-1 p-8 overflow-y-auto">
+    <div class="grid grid-cols-1 ">
 
-<?php include  '../app/Views/layouts/sidebar.php'; ?>
-<main class="flex-1 p-8 overflow-y-auto">
-<div class="max-w ">
         <!-- Título -->
         <div class="mb-8 animate-fade-in">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
@@ -118,3 +122,4 @@
         </div>
     </div>
 </main>
+<?php include  '../app/Views/layouts/footer.php'; ?>

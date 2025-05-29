@@ -6,9 +6,7 @@ use Core\Controller;
 
 class HomeController extends Controller {
     public function index() {
-        $data = [
-            'title' => 'Página de Inicio'
-        ];
-        $this->view('home/index', $data);
+        
+        require_once __DIR__ . '/../views/home/index.php';
     }
 }

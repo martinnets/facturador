@@ -10,7 +10,7 @@ class PedidoController extends Controller  {
 
     private $pedidoModel;
     private $clienteModel;
-    private $productoModel;
+    private $productoModel; 
     private $detalleModel;
     
     public function __construct() {
@@ -22,7 +22,7 @@ class PedidoController extends Controller  {
     
     public function index() {
         $pedidos = $this->pedidoModel->getAll();
-        $this->view('pedidos/index');
+        require_once __DIR__ . '/../views/pedidos/index.php';
         //include 'views/pedidos/index.php';
     }
     

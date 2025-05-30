@@ -3,60 +3,55 @@
 namespace Controllers;
 
 use Core\Controller;
+use Models\Comprobante;
 use Models\Orden;
-class OrdenController extends Controller { 
-    private $model;
-
+class ComprobanteController extends Controller { 
+    private $modelComprobante;
+    private $modelOrden;
     public function __construct() {
-        $this->model = new Orden();
+        $this->modelComprobante = new Comprobante();
+        $this->modelOrden = new Orden();
     }
     public function index() {
         $pagina = $_GET['pagina'] ?? 1;
-        $porPagina = $_GET['por_pagina'] ?? 100;
-        $id = $_GET['id'] ?? '';
-        $pago = $_GET['pago'] ?? '';
-        $estado = $_GET['estado'] ?? '';
-        $cliente = $_GET['cliente'] ?? '';
-
-        $ordenes = $this->model->getOrdenes($pagina, $porPagina, $id,$pago,$estado,$cliente);
-        $totalordenes = $this->model->getTotalOrdenes($id,$pago,$estado,$cliente);
-        $totalPaginas = ceil($totalordenes / $porPagina);
+        $porPagina = $_GET['por_pagina'] ?? 10;
+        $busqueda = $_GET['busqueda'] ?? '';
+        
+        $comprobantes = $this->modelComprobante->getcomprobantes($pagina, $porPagina, $busqueda);
+        $totalcomprobantes = $this->modelComprobante->getTotalcomprobantes($busqueda);
+        $totalPaginas = ceil($totalcomprobantes / $porPagina);
         
         $data = [
-            'ordenes' => $ordenes,
+            'comprobantes' => $comprobantes,
             'paginaActual' => $pagina,
             'totalPaginas' => $totalPaginas,
             'porPagina' => $porPagina,
-            'id' => $id,
-            'pago' => $pago,
-            'estado' => $estado,
-            'cliente' => $cliente ,
-            'totalordenes' => $totalordenes
+            'busqueda' => $busqueda,
+            'totalcomprobantes' => $totalcomprobantes
         ];
-        require_once __DIR__ . '/../views/ordenes/index.php';
+        require_once __DIR__ . '/../views/comprobantes/index.php';
     }
-    public function create() {
+    public function vista() {
         $id_pedido = $_GET['id'] ?? null;
-        $pedido = $this->model->getOrdenByID($id_pedido);
-        $detalles = $this->model->getOrdenDetalleByID($id_pedido);
-
-        require_once __DIR__ . '/../views/ordenes/create.php';
+        $pedido = $this->modelOrden->getOrdenByID($id_pedido);
+        $detalles = $this->modelOrden->getOrdenDetalleByID($id_pedido);
+        
+        require_once __DIR__ . '/../views/comprobantes/view.php';
     }
-    
     public function exportExcel() {
-        $Ordenes = $this->model->exportToExcel();
+        $comprobantes = $this->model->exportToExcel();
         
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="Ordenes.xls"');
+        header('Content-Disposition: attachment;filename="comprobantes.xls"');
         header('Cache-Control: max-age=0');
         
         $output = fopen('php://output', 'w');
         
         // Encabezados
-        fputcsv($output, array('ID', 'Código', 'Nombre', 'Teléfono', 'Correo'), "\t");
+        fputcsv($output, array('id_producto', 'codigo', 'producto', 'cod_proveedor'), "\t");
         
         // Datos
-        foreach ($Ordenes as $cliente) {
+        foreach ($comprobantes as $cliente) {
             fputcsv($output, $cliente, "\t");
         }
         

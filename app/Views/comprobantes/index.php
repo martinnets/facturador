@@ -9,15 +9,15 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">
                 <i class="fas fa-filter mr-2 text-gray-600"></i>
-                Filtros de Búsqueda - Productos
+                Filtros de Búsqueda - Comprobantes
             </h2>
             
             <form id="filtrosForm" method="get" class="grid grid-cols-2  ">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Productos</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Comprobantes</label>
                     <input type="hidden" name="pagina" value="1">
                     <input type="text" name="busqueda" value="<?= htmlspecialchars($data['busqueda']) ?>" 
-                           placeholder="Buscar productos..." class="flex-grow px-4 py-2 border rounded-l-md">
+                           placeholder="Buscar Comprobantes..." class="flex-grow px-4 py-2 border rounded-l-md">
                 </div>
                    
                 <div class="flex items-end gap-2">
@@ -35,26 +35,32 @@
             <!-- Formulario de búsqueda -->
             
             
-            <!-- Tabla de productos -->
+            <!-- Tabla de comprobantes -->
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white border">
                     <thead>
                         <tr class="bg-gray-100">
-                            <th class="py-2 px-4 border">ID</th>
-                            <th class="py-2 px-4 border">Código</th>
-                            <th class="py-2 px-4 border">Nombre</th>
-                            <th class="py-2 px-4 border">Proveedor</th>
-                            
+                            <th class="py-2 px-4 border">PDF/XML</th>
+                            <th class="py-2 px-4 border">Serie</th>
+                            <th class="py-2 px-4 border">Numero</th>
+                            <th class="py-2 px-4 border">Emisión</th>
+                            <th class="py-2 px-4 border">Hora</th>
+                            <th class="py-2 px-4 border">Importe</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data['productos'] as $cliente): ?>
+                        <?php foreach ($data['comprobantes'] as $cliente): ?>
                         <tr>
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['id_producto']) ?></td>
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['codigo']) ?></td>
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['producto']) ?></td>
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['cod_proveedor']) ?></td>
+                            <td class="py-2 px-4 border">
+                            <a href="<?php echo '/facturador/public/comprobante/vista?id='.$cliente['id_comprobante']?>" class="bg-red-400 hover:bg-red-500 font-bold py-1 px-2 
+                            rounded"><i class="fas fa-file-pdf text-white"></i></a>
                             
+                             </td>
+                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['serie']) ?></td>
+                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['numero']) ?></td>
+                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['emision']) ?></td>
+                            <td class="py-2 px-4 border"><?= htmlspecialchars($cliente['hora']) ?></td>
+                            <td class="py-2 px-4 border text-end"><?= htmlspecialchars($cliente['importe']) ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -65,7 +71,7 @@
             <div class="flex justify-between items-center mt-4">
                 <div>
                     <span class="text-gray-700">
-                        Mostrando <?= count($data['productos']) ?> de <?= $data['totalproductos'] ?> productos
+                        Mostrando <?= count($data['comprobantes']) ?> de <?= $data['totalcomprobantes'] ?> comprobantes
                     </span>
                 </div>
                 <div class="flex space-x-2">

@@ -18,8 +18,8 @@
                 <a href="/facturador/public/producto" class="nav-link flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
                     <i class="fas fa-box-open w-6 mr-3"></i> <span class="sidebar-text">Productos</span>
                 </a>
-                <a href="/facturador/public/pedido" class="nav-link flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-                    <i class="fas fa-shopping-cart w-6 mr-3"></i> <span class="sidebar-text">Pedidos</span>
+                <a href="/facturador/public/comprobante" class="nav-link flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <i class="fas fa-shopping-cart w-6 mr-3"></i> <span class="sidebar-text">Comprobantes</span>
                 </a>
             </nav>
             <div class="mt-auto text-xs text-gray-400 text-center sidebar-footer-text">

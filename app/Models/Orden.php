@@ -18,17 +18,14 @@ class Orden {
     public function getOrdenes($pagina = 1, $porPagina = 10, $id = '',$pago = '', $estado = '', $cliente = '') {
         $offset = ($pagina - 1) * $porPagina;
         $query = "SELECT
-                MAX(os.id) AS id,
-                CONCAT(comp.serie,'-',comp.numero) AS factura,
                 pe.id_pedido_ejecutivo,
-                CONCAT(c.nombre_cliente,' - Entrega: ',pe.direccion_entrega) AS nombre_cliente,
+                c.nombre_cliente,
                 c.encargado,
                 e.id_ejecutivo,
                 e.nombre_vendedor,
                 pe.id_proforma,
                 pe.tipo_venta,
-                pe.fecha,
-                est.nombre_estado,
+                pe.fecha,                
                 pe.fecha_entrega,
                 pe.id_repartidor,
                 IFNULL(pe.nombre_cliente,'--') AS nota,
@@ -37,15 +34,16 @@ class Orden {
                 pe.comentarios AS comentario_vendedor,
                 os.fecha AS fecha_seguimiento,
                 c.id_cliente,
-                tp.nombre_tipo_pago
+                tp.nombre_tipo_pago,
+                od.tipo_precio,
+                sum(od.cantidad*od.precio) total
                 FROM orden pe
                 INNER JOIN clientes c ON pe.id_cliente = c.id_cliente
                 INNER JOIN ejecutivos e ON pe.id_ejecutivo = e.id_ejecutivo
                 INNER JOIN tipo_pago tp ON pe.id_tipo_pago = tp.id_tipo_pago
                 INNER JOIN orden_seguimiento os ON os.id_pedido = pe.id_pedido_ejecutivo
-                INNER JOIN estados est ON pe.id_estado = est.id_estado
-                LEFT JOIN documentos_salida ds ON ds.id_pedido = pe.id_pedido_ejecutivo AND ds.estado = 1
-                LEFT JOIN comprobantes  comp ON ds.id_comprobante = comp.id_comprobante ";
+                INNER JOIN orden_detalle od  ON od.id_pedido = pe.id_pedido_ejecutivo
+                WHERE od.id_producto IN (SELECT DISTINCT id_producto FROM productos )   ";
         $params = [];
         $conditions = [];
         if (!empty($id)) {
@@ -58,7 +56,7 @@ class Orden {
         }
         $where = ''; 
         if (!empty($conditions)) {
-            $where = ' WHERE ' . implode(' OR ', $conditions);
+            $where = ' OR ' . implode(' OR ', $conditions);
         }
         error_log($id);
 
@@ -81,10 +79,13 @@ class Orden {
     public function getOrdenByID($id) {
         
         $query = "SELECT
-                MAX(os.id) AS id,
                 CONCAT(comp.serie,'-',comp.numero) AS factura,
                 pe.id_pedido_ejecutivo,
-                CONCAT(c.nombre_cliente,' - Entrega: ',pe.direccion_entrega) AS nombre_cliente,
+                c.ruc,
+                c.dni,
+                c.direccion,
+                c.correo,
+                c.nombre_cliente ,
                 c.encargado,
                 e.id_ejecutivo,
                 e.nombre_vendedor,
@@ -96,20 +97,20 @@ class Orden {
                 pe.id_repartidor,
                 IFNULL(pe.nombre_cliente,'--') AS nota,
                 pe.id_estado ,
-                os.comentario,
                 pe.comentarios AS comentario_vendedor,
-                os.fecha AS fecha_seguimiento,
                 c.id_cliente,
-                tp.nombre_tipo_pago
+                tp.nombre_tipo_pago,
+                 (SELECT sum(od2.cantidad*od2.precio) 
+            FROM orden_detalle od2 
+            WHERE   od2.id_pedido = pe.id_pedido_ejecutivo)  as total
                 FROM orden pe
                 INNER JOIN clientes c ON pe.id_cliente = c.id_cliente
                 INNER JOIN ejecutivos e ON pe.id_ejecutivo = e.id_ejecutivo
                 INNER JOIN tipo_pago tp ON pe.id_tipo_pago = tp.id_tipo_pago
-                INNER JOIN orden_seguimiento os ON os.id_pedido = pe.id_pedido_ejecutivo
                 INNER JOIN estados est ON pe.id_estado = est.id_estado
                 LEFT JOIN documentos_salida ds ON ds.id_pedido = pe.id_pedido_ejecutivo AND ds.estado = 1
                 LEFT JOIN comprobantes  comp ON ds.id_comprobante = comp.id_comprobante
-                WHERE pe.id_pedido_ejecutivo = ?";
+                WHERE pe.id_pedido_ejecutivo = ? and pe.estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id, \PDO::PARAM_INT);
         $stmt->execute();
@@ -117,7 +118,7 @@ class Orden {
         return $pedido;
     }
     public function getOrdenDetalleByID($id) {
-        
+       
         $query = "SELECT 
             od.id_pedido,
             od.cantidad,
@@ -128,6 +129,7 @@ class Orden {
             od.id_producto,
             p.codigo ,
             p.producto 
+           
             FROM orden_detalle od
             INNER JOIN productos p on od.id_producto =p.id_producto
             WHERE od.id_pedido = ?";

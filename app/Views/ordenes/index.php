@@ -11,7 +11,11 @@
                 <i class="fas fa-filter mr-2 text-gray-600"></i>
                 Filtros de Búsqueda - Ordenes
             </h2>
-            
+            <form method="GET" class="mb-4 flex gap-4">
+                <input type="text" name="id" placeholder="Filtrar por ID" class="border p-2 rounded">
+                <input type="text" name="estado" placeholder="Filtrar por Estado" class="border p-2 rounded">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Filtrar</button>
+            </form>
             <form id="filtrosForm" method="get" class="grid grid-cols-5  ">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Orden</label>
@@ -43,13 +47,11 @@
                            placeholder="Buscar Cliente..." class="flex-grow px-4 py-2 border rounded-l-md">
                 </div>
                 <div class="flex items-end gap-2">
-                    <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200">
+                    <button type="submit"
+                    class=" bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                         <i class="fas fa-search mr-2"></i>Filtrar
                     </button>
                     
-                    <button type="button" onclick="limpiarFiltros()" class="px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-200">
-                        <i class="fas fa-times"></i>
-                    </button>
                 </div>
             </form>
         </div>
@@ -59,36 +61,38 @@
             
             <!-- Tabla de Ordenes -->
             <div class="overflow-x-auto">
+            <form method="POST" action="/facturador/public/orden/procesar.php">
+                <div class="text-end">
+                    
+                <button type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">
+                <i class="fas fa-file-pdf mr-2"></i>Generar Facturas</button>
+                </div>
                 <table class="min-w-full bg-white border">
                     <thead>
                         <tr class="bg-gray-100">
-                            <th class="py-2 px-4 border">Acción</th>
-                            <th class="py-2 px-4 border">CPE</th>
-                            <th class="py-2 px-4 border">Nro Pedido</th>
-                            <th class="py-2 px-4 border">Nro Marketch</th>
+                        <th class="py-2 px-4 w-12">
+                        <input type="checkbox" id="selectAll" onclick="toggleAll(this)" 
+                        class="form-checkbox h-5 w-5 text-blue-600">
+                                </th>       
+                                              
+                            <th class="py-2 px-4 border">Id</th>
                             <th class="py-2 px-4 border">Tipo Pago</th>
                             <th class="py-2 px-4 border">Cliente</th>
                             <th class="py-2 px-4 border">Estado</th>
                             <th class="py-2 px-4 border">Vendedor</th>
                             <th class="py-2 px-4 border">F.Pedido</th>
                             <th class="py-2 px-4 border">F.Entrega</th>
-                            <th class="py-2 px-4 border">Nota</th>
+                            <th class="py-2 px-4 border">Total</th>
+                            <th class="py-2 px-4 border">Tipo</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data['ordenes'] as $orden): ?>
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                            <?php if ($orden['factura'] == ''): ?>
-                                      
-                                <a href="<?php echo '/facturador/public/orden/create?id='.$orden['id']?>" class="bg-red-400 hover:bg-red-500 font-bold py-1 px-2 
-                                                rounded"><i class="fas fa-file-pdf text-white"></i></a>
-                            <?php endif; ?>    
-                                                                                        
-                                            </td> 
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($orden['factura']) ?></td>
+                           
+                        <td class="text-center"><input class="form-checkbox h-5 w-5 text-blue-600" type="checkbox" name="seleccionados[]" value="<?= $pedido['id'] ?>"></td>
 
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($orden['id']) ?></td>
+
                             <td class="py-2 px-4 border">
                             <a href="<?php echo '/facturador/public/orden/create?id='.$orden['id_pedido_ejecutivo']?>"
                              class="bg-blue-400 hover:bg-blue-100 font-bold py-1 px-2 
@@ -112,33 +116,36 @@
                                     Pendiente</span>
                             <?php elseif($orden['id_estado'] == '4'): ?>
                                     <span class='bg-red-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300'>
-                                    <?= htmlspecialchars($orden['nombre_estado']) ?></span>
+                                    <?= htmlspecialchars($orden['id_estado']) ?></span>
                             <?php elseif($orden['id_estado'] == '5'): ?>
                                     <span class='bg-green-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300'>
-                                    <?= htmlspecialchars($orden['nombre_estado']) ?></span>
+                                    <?= htmlspecialchars($orden['id_estado']) ?></span>
                             <?php elseif($orden['id_estado'] == '6'): ?>
                                     <span class='bg-yellow-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300'>
-                                    <?= htmlspecialchars($orden['nombre_estado']) ?></span>  
+                                    <?= htmlspecialchars($orden['id_estado']) ?></span>  
                             <?php elseif($orden['id_estado'] == '7'): ?>
                                     <span class='bg-blue-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300'>
-                                    <?= htmlspecialchars($orden['nombre_estado']) ?></span>     
+                                    <?= htmlspecialchars($orden['id_estado']) ?></span>     
                             <?php elseif($orden['id_estado'] == '8'): ?>
                                     <span class='bg-Purple-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300'>
-                                    <?= htmlspecialchars($orden['nombre_estado']) ?></span>
+                                    <?= htmlspecialchars($orden['id_estado']) ?></span>
                             <?php elseif($orden['id_estado'] == '9'): ?>
                                     <span class='bg-Pink-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300'>
-                                    <?= htmlspecialchars($orden['nombre_estado']) ?></span>                                                                                                                                         
+                                    <?= htmlspecialchars($orden['id_estado']) ?></span>                                                                                                                                         
                             <?php endif; ?>       
                             </td>
                              
                             <td class="py-2 px-4 border"><?= htmlspecialchars($orden['nombre_vendedor']) ?></td>
                             <td class="py-2 px-4 border"><?= htmlspecialchars($orden['fecha']) ?></td>
                             <td class="py-2 px-4 border"><?= htmlspecialchars($orden['fecha_entrega']) ?></td>
-                            <td class="py-2 px-4 border"><?= htmlspecialchars($orden['nota']) ?></td>
+                            <td class="py-2 px-4 border text-end"><?= htmlspecialchars($orden['total']) ?></td>
+                            <td class="py-2 px-4 border text-end"><?= htmlspecialchars($orden['tipo_precio']) ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+
+            </form>
             </div>
             
             <!-- Paginación -->
@@ -186,6 +193,32 @@
                
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-      
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+    function toggleAll(source) {
+      checkboxes = document.querySelectorAll('input[name="seleccionados[]"]');
+      for (let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = source.checked;
+      }
+    }
+  </script>
+<script>
+    // Seleccionar/deseleccionar todos los checkboxes
+    document.getElementById('selectAll').addEventListener('change', function(e) {
+        const checkboxes = document.querySelectorAll('.pedido-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = e.target.checked;
+        });
+    });
+
+    // Validar que se haya seleccionado al menos un pedido
+    function validarSeleccion() {
+        const checkboxes = document.querySelectorAll('.pedido-checkbox:checked');
+        if (checkboxes.length === 0) {
+            alert('Por favor seleccione al menos un pedido');
+            return false;
+        }
+        return true;
+    }
+</script>
 <?php include  '../app/Views/layouts/footer.php'; ?>

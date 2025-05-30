@@ -1,10 +1,10 @@
 <?php include  '../app/Views/layouts/header.php'; ?>
 <?php include  '../app/Views/layouts/aside.php'; ?>
        
-        <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out content-expanded">
-        <?php include  '../app/Views/layouts/navbar.php'; ?>
-        <main class="flex-1 p-8 overflow-y-auto">
-    <div class="grid grid-cols-1 ">
+<div id="main-content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out content-expanded">
+<?php include  '../app/Views/layouts/navbar.php'; ?>
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="grid grid-cols-1 ">
 
         <!-- Título -->
         <div class="mb-8 animate-fade-in">
@@ -59,36 +59,23 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div class="grid grid-cols-1  gap-8 mb-8">
             <!-- Gráfico de Ventas -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200">
                     <div class="px-6 py-4 border-b border-gray-200">
                         <h5 class="text-lg font-semibold text-gray-900 flex items-center">
                             <i class="fas fa-chart-line mr-2 text-blue-600"></i>
-                            Ventas Mensuales
+                            Ordenes Recientes
                         </h5>
                     </div>
                     <div class="p-6">
-                        <canvas id="salesChart" class="w-full" height="300"></canvas>
+                        
                     </div>
                 </div>
             </div>
 
-            <!-- Actividad Reciente -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 h-full">
-                    <div class="px-6 py-4 border-b border-gray-200">
-                        <h5 class="text-lg font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-bell mr-2 text-blue-600"></i>
-                            Actividad Reciente
-                        </h5>
-                    </div>
-                    <div class="p-6 space-y-4" id="activity-list">
-                        <!-- Las actividades se cargarán aquí -->
-                    </div>
-                </div>
-            </div>
+           
         </div>
 
         <!-- Acciones Rápidas -->

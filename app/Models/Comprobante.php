@@ -3,9 +3,9 @@
 namespace Models;
 use Core\Database;
 
-class Producto {
+class Comprobante {
     private $conn;
-    private $table_name = "productos";
+    private $table_name = "comprobantes";
 
     public $id;
     public $cliente;
@@ -16,14 +16,14 @@ class Producto {
     }
 
     
-    public function getproductos($pagina = 1, $porPagina = 10, $busqueda = '') {
+    public function getcomprobantes($pagina = 1, $porPagina = 10, $busqueda = '') {
         $offset = ($pagina - 1) * $porPagina;
         
-        $query = "SELECT * FROM productos";
+        $query = "SELECT * FROM comprobantes";
         $params = [];
         
         if (!empty($busqueda)) {
-            $query .= " WHERE codigo LIKE :busqueda OR producto LIKE :busqueda";
+            $query .= " WHERE serie LIKE :busqueda OR numero LIKE :busqueda";
             $params[':busqueda'] = "%$busqueda%";
         }
         
@@ -42,11 +42,11 @@ class Producto {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function getTotalproductos($busqueda = '') {
-        $query = "SELECT COUNT(*) as total FROM productos";
+    public function getTotalcomprobantes($busqueda = '') {
+        $query = "SELECT COUNT(*) as total FROM comprobantes";
         
         if (!empty($busqueda)) {
-            $query .= " WHERE codigo LIKE :busqueda OR producto LIKE :busqueda";
+            $query .= " WHERE serie LIKE :busqueda OR numero LIKE :busqueda";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':busqueda', "%$busqueda%");
         } else {
@@ -58,7 +58,7 @@ class Producto {
     }
 
     public function exportarExcel() {
-        $stmt = $this->conn->query("SELECT * FROM productos");
+        $stmt = $this->conn->query("SELECT * FROM comprobantes");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

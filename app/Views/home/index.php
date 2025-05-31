@@ -74,10 +74,7 @@
                     </div>
                 </div>
             </div>
-
-           
         </div>
-
         <!-- Acciones Rápidas -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200">
             <div class="px-6 py-4 border-b border-gray-200">
@@ -88,15 +85,15 @@
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <a href="/clientes/create" class="flex flex-col items-center justify-center p-6 border-2 border-blue-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 text-center group">
+                    <a href="/orden" class="flex flex-col items-center justify-center p-6 border-2 border-blue-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 text-center group">
                         <i class="fas fa-user-plus text-2xl text-blue-600 mb-3 group-hover:scale-110 transition-transform"></i>
-                        <span class="text-blue-700 font-medium">Nuevo Cliente</span>
+                        <span class="text-blue-700 font-medium">Nuevo Ejecutivo</span>
                     </a>
-                    <a href="/productos/create" class="flex flex-col items-center justify-center p-6 border-2 border-green-200 rounded-lg hover:border-green-400 hover:bg-green-50 transition-all duration-200 text-center group">
+                    <a href="/facturador/public/orden" class="flex flex-col items-center justify-center p-6 border-2 border-green-200 rounded-lg hover:border-green-400 hover:bg-green-50 transition-all duration-200 text-center group">
                         <i class="fas fa-plus-circle text-2xl text-green-600 mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="text-green-700 font-medium">Nuevo Producto</span>
                     </a>
-                    <a href="/pedidos/create" class="flex flex-col items-center justify-center p-6 border-2 border-yellow-200 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-all duration-200 text-center group">
+                    <a href="/public/orden" class="flex flex-col items-center justify-center p-6 border-2 border-yellow-200 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-all duration-200 text-center group">
                         <i class="fas fa-shopping-cart text-2xl text-yellow-600 mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="text-yellow-700 font-medium">Nuevo Pedido</span>
                     </a>

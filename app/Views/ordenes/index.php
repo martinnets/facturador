@@ -11,49 +11,13 @@
                 <i class="fas fa-filter mr-2 text-gray-600"></i>
                 Filtros de Búsqueda - Ordenes
             </h2>
-            <form method="GET" class="mb-4 flex gap-4">
+            <form method="GET" class="mb-4 flex gap-2">
                 <input type="text" name="id" placeholder="Filtrar por ID" class="border p-2 rounded">
                 <input type="text" name="estado" placeholder="Filtrar por Estado" class="border p-2 rounded">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Filtrar</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                <i class="fas fa-search mr-2"></i>Filtrar</button>
             </form>
-            <form id="filtrosForm" method="get" class="grid grid-cols-5  ">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Orden</label>
-                    <input type="hidden" name="pagina" value="1">
-                    <input type="text" name="id"  value="<?= htmlspecialchars($data['id']) ?>"  
-                           placeholder="Buscar Ordenes..." class="flex-grow px-4 py-2 border rounded-l-md">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tipo Pago</label>
-                     <select name="estado" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Tipo Pago</option>
-                        <option value="Contado" <?= (($_GET['pago'] ?? '') === 'Contado') ? 'selected' : '' ?>>Contado</option>
-                        <option value="Credito" <?= (($_GET['pago'] ?? '') === 'Credito') ? 'selected' : '' ?>>Credito</option>                                                
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
-                     <select name="estado" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Tipo Pago</option>
-                        <option value="Pendiente" <?= (($_GET['estado'] ?? '') === 'Pendiente') ? 'selected' : '' ?>>Pendiente</option>
-                        <option value="Facturado" <?= (($_GET['estado'] ?? '') === 'Facturado') ? 'selected' : '' ?>>Facturado</option>
-                        <option value="Despachado" <?= (($_GET['estado'] ?? '') === 'Despachado') ? 'selected' : '' ?>>Despachado</option>
-                        
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Cliente:</label>
-                     <input type="text" name="cliente"  
-                           placeholder="Buscar Cliente..." class="flex-grow px-4 py-2 border rounded-l-md">
-                </div>
-                <div class="flex items-end gap-2">
-                    <button type="submit"
-                    class=" bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
-                        <i class="fas fa-search mr-2"></i>Filtrar
-                    </button>
-                    
-                </div>
-            </form>
+             
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
             <!-- Formulario de búsqueda -->
@@ -61,12 +25,14 @@
             
             <!-- Tabla de Ordenes -->
             <div class="overflow-x-auto">
-            <form method="POST" action="/facturador/public/orden/procesar.php">
+            <!-- <form method="POST" action="/facturador/public/orden/procesar.php"> -->
+            <form id="facturaForm" method="post" action="javascript:void(0);" >
                 <div class="text-end">
                     
-                <button type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">
+                <button  id="btnGenerar" type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">
                 <i class="fas fa-file-pdf mr-2"></i>Generar Facturas</button>
                 </div>
+               
                 <table class="min-w-full bg-white border">
                     <thead>
                         <tr class="bg-gray-100">
@@ -90,7 +56,10 @@
                         <?php foreach ($data['ordenes'] as $orden): ?>
                         <tr>
                            
-                        <td class="text-center"><input class="form-checkbox h-5 w-5 text-blue-600" type="checkbox" name="seleccionados[]" value="<?= $pedido['id'] ?>"></td>
+                        <td class="text-center"><input class="form-checkbox h-5 w-5 text-blue-600" 
+                        type="checkbox" 
+                        name="seleccionados[]" 
+                        value="<?= $orden['id_pedido_ejecutivo'] ?>"></td>
 
 
                             <td class="py-2 px-4 border">
@@ -146,6 +115,16 @@
                 </table>
 
             </form>
+            <!-- Popup de carga -->
+<div id="popupLoading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center">
+    <svg class="animate-spin h-8 w-8 text-green-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+    </svg>
+    <p class="text-gray-700 text-sm font-medium">Procesando facturas electrónicas...</p>
+  </div>
+</div>
             </div>
             
             <!-- Paginación -->
@@ -186,12 +165,14 @@
                 </a>
             </div>
         </div>
+   
     </div>
        
-  
+
 </main>
                
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 <script>
@@ -201,7 +182,53 @@
         checkboxes[i].checked = source.checked;
       }
     }
-  </script>
+    
+    document.getElementById('facturaForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const popup = document.getElementById('popupLoading');
+        const seleccionados = [...form.querySelectorAll('input[name="seleccionados[]"]:checked')].map(i => i.value);
+        if (seleccionados.length === 0) {
+            alert("Selecciona al menos un pedido.");
+            return;
+        }
+        console.log("Pedidos seleccionados:", seleccionados);
+        // Mostrar popup de carga
+        popup.classList.remove('hidden');
+        try {
+            // const response = await fetch('/facturador/public/orden/procesar.php', {
+            // method: 'POST',
+            // body: new URLSearchParams({ 'seleccionados[]': seleccionados })
+            // });
+
+            // await response.text();
+
+            // // Redirigir al terminar
+            // setTimeout(() => {
+            // window.location.href = '/facturador/public/comprobante/index.php';
+            // }, 1000);
+            console.log(JSON.stringify({ seleccionados }))
+            const response = await fetch('/facturador/public/orden/procesar.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ seleccionados })
+                });
+
+                await response.text();
+
+                setTimeout(() => {
+                window.location.href = '/facturador/public/comprobante/index.php';
+                }, 1000);
+        } catch (error) {
+            alert("Ocurrió un error al procesar los pedidos.");
+            console.error(error);
+            popup.classList.add('hidden');
+        }
+        });
+</script>
+
 <script>
     // Seleccionar/deseleccionar todos los checkboxes
     document.getElementById('selectAll').addEventListener('change', function(e) {

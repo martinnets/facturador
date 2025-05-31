@@ -19,6 +19,7 @@ class Database {
             $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->conn->exec("set names utf8");
         } catch(\PDOException $exception) {
+            error_log("Connection error: " . $exception->getMessage());
             echo "Connection error: " . $exception->getMessage();
         }
 

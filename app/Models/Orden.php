@@ -58,12 +58,12 @@ class Orden {
         if (!empty($conditions)) {
             $where = ' OR ' . implode(' OR ', $conditions);
         }
-        error_log($id);
+       // error_log($id);
 
         $query .= $where;
         $query .= " GROUP BY pe.id_pedido_ejecutivo 
                     ORDER BY pe.fecha DESC LIMIT :offset, :porPagina";
-        error_log($query);
+       // error_log($query);
         $stmt = $this->conn->prepare($query);
         
         foreach ($params as $key => $value) {

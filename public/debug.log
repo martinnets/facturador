@@ -132,3 +132,33 @@ Stack trace:
 #2 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
 #3 {main}
   thrown in C:\xampp\htdocs\facturador\app\Controllers\HomeController.php on line 8
+[31-May-2025 04:08:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "\App\Controllers\HomeController" not found in C:\xampp\htdocs\facturador\app\Core\App.php:26
+Stack trace:
+#0 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Core\App.php on line 26
+[31-May-2025 04:09:26 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "\app\Controllers\HomeController" not found in C:\xampp\htdocs\facturador\app\Core\App.php:26
+Stack trace:
+#0 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Core\App.php on line 26
+[31-May-2025 04:09:32 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "\app\Controllers\HomeController" not found in C:\xampp\htdocs\facturador\app\Core\App.php:26
+Stack trace:
+#0 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Core\App.php on line 26
+[31-May-2025 04:09:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "../app/Controllers/HomeController" not found in C:\xampp\htdocs\facturador\app\Core\App.php:26
+Stack trace:
+#0 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Core\App.php on line 26
+[31-May-2025 04:10:09 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "app/Controllers/HomeController" not found in C:\xampp\htdocs\facturador\app\Core\App.php:26
+Stack trace:
+#0 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Core\App.php on line 26
+[31-May-2025 04:10:24 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "public/app/Controllers/HomeController" not found in C:\xampp\htdocs\facturador\app\Core\App.php:26
+Stack trace:
+#0 C:\xampp\htdocs\facturador\public\index.php(19): Core\App->__construct()
+#1 {main}
+  thrown in C:\xampp\htdocs\facturador\app\Core\App.php on line 26

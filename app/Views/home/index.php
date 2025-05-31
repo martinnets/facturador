@@ -80,7 +80,7 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <h5 class="text-lg font-semibold text-gray-900 flex items-center">
                     <i class="fas fa-rocket mr-2 text-blue-600"></i>
-                    Acciones Rápidas
+                    Acciones Rápidas:
                 </h5>
             </div>
             <div class="p-6">
